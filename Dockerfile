@@ -1,6 +1,6 @@
 FROM fintu/python3.7
 
-COPY . /my-flask
+COPY flask ./my-flask
 WORKDIR ./my-flask
 RUN pip3 install --upgrade pip
 RUN pip3 install Flask
