@@ -37,7 +37,7 @@ pipeline {
         script {
           sshagent (credentials: ['instance_cred']) {
 	      sh "ssh -o StrictHostKeyChecking=no ec2-user@192.168.4.179 sudo systemctl restart httpd"
-            //sh "ssh -o StrictHostKeyChecking=no ec2-user@192.168.4.179 docker run -p 8080:8080 -d --name flask-app tlqkddk123/flask-app:${env.BUILD_ID}"
+              sh "ssh -o StrictHostKeyChecking=no ec2-user@192.168.4.179 docker run -d --name flask-app tlqkddk123/flask-app:${env.BUILD_ID}"
           }
         }
       }
