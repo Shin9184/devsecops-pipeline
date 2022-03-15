@@ -1,3 +1,3 @@
 import sys
-sys.path.insert(0, "/var/www/flask")
-from run2 import app as application
+sys.path.append("/var/www/flask")
+from flaskapp import app as application
