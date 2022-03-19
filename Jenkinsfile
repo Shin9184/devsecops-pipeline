@@ -12,9 +12,9 @@ pipeline {
       stage ('Anchore Scan') {
         steps {
           script {
-            def imageLine = 'tlqkddk123/flask-app'
-            writeFile file: 'tlqkddk123/flask-app', text: imageLine
-            anchore name: 'tlqkddk123/flask-app', engineCredentialsId: 'anchore_cred', bailOnFail: false
+            def imageLine = 'python:3'
+            writeFile file: 'python:3', text: imageLine
+            anchore name: 'python:3', engineCredentialsId: 'anchore_cred', bailOnFail: false
           }
         }
       }
