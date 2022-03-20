@@ -5,7 +5,7 @@ pipeline {
 
       stage('Git Progress') {
         steps {
-          git  branch: 'main', url: 'https://github.com/Shin9184/devsecops-pipeline.git'
+          git  branch: 'main', credentialsId: 'github_cred', url: 'https://github.com/Shin9184/devsecops-pipeline.git'
         }
       }
 
@@ -13,24 +13,24 @@ pipeline {
         steps {
           script {
             checkout scm
-            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_cred') {
-              def customImage = docker.build("shin9184/flask")
-              customImage.push("${env.BUILD_ID}")
-              customImage.push("latest")
-            }
+              docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_cred') {
+                def customImage = docker.build("shin9184/flask")
+                customImage.push("${env.BUILD_ID}")
+                customImage.push("latest")
+              }
           }
         }
       }
 
-//       stage ('Anchore Scan') {
-//         steps {
-//           script {
-//             def imageLine = 'shin9184/flask'
-//             writeFile file: 'shin9184/flask', text: imageLine
-//             anchore name: 'shin9184/flask', engineCredentialsId: 'anchore_cred', bailOnFail: false
-//           }
-//         }
-//       }
+      // stage ('Anchore Scan') {
+      //   steps {
+      //     script {
+      //       def imageLine = 'tlqkddk123/flask-app'
+      //       writeFile file: 'tlqkddk123/flask-app', text: imageLine
+      //       anchore name: 'tlqkddk123/flask-app', engineCredentialsId: 'anchore_cred', bailOnFail: false
+      //     }
+      //   }
+      // }
         
     stage('SSH Deploy') {
       steps {
