@@ -5,7 +5,7 @@ pipeline {
 
       stage('Git Progress') {
         steps {
-          git  branch: 'main', credentialsId: 'github_cred', url: 'https://github.com/Shin9184/devsecops-pipeline.git'
+          git  branch: 'main', url: 'https://github.com/Shin9184/devsecops-pipeline.git'
         }
       }
 
