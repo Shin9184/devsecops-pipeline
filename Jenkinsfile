@@ -14,7 +14,7 @@ pipeline {
           script {
             checkout scm
             docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_cred') {
-              def customImage = docker.build("shin/flask")
+              def customImage = docker.build("shin9184/flask")
               customImage.push("${env.BUILD_ID}")
               customImage.push("latest")
             }
@@ -25,9 +25,9 @@ pipeline {
       stage ('Anchore Scan') {
         steps {
           script {
-            def imageLine = 'shin/flask'
-            writeFile file: 'shin/flask', text: imageLine
-            anchore name: 'shin/flask', engineCredentialsId: 'anchore_cred', bailOnFail: false
+            def imageLine = 'shin9184/flask'
+            writeFile file: 'shin9184/flask', text: imageLine
+            anchore name: 'shin9184/flask', engineCredentialsId: 'anchore_cred', bailOnFail: false
           }
         }
       }
