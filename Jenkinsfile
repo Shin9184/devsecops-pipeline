@@ -9,14 +9,37 @@ pipeline {
         }
       }
 
-      stage ('Anchore Scan') {
+      stage('Push Image') {
         steps {
           script {
-            def imageLine = 'python:3'
-            writeFile file: 'python:3', text: imageLine
-            anchore name: 'python:3', engineCredentialsId: 'anchore_cred', bailOnFail: false
+            checkout scm
+            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_cred') {
+              def customImage = docker.build("shin/flask")
+              customImage.push("${env.BUILD_ID}")
+              customImage.push("latest")
+            }
           }
         }
       }
+
+      stage ('Anchore Scan') {
+        steps {
+          script {
+            def imageLine = 'shin/flask'
+            writeFile file: 'shin/flask', text: imageLine
+            anchore name: 'shin/flask', engineCredentialsId: 'anchore_cred', bailOnFail: false
+          }
+        }
+      }
+        
+    stage('SSH Deploy') {
+      steps {
+        script {
+          sshagent (credentials: ['instance_cred']) {
+            sh "ssh -o StrictHostKeyChecking=no ec2-user@192.168.4.179 docker run -p 8080 -d --name flask-app shin9184/flask:${env.BUILD_ID}"
+          }
+        }
+      }
+    }
   }
 }
