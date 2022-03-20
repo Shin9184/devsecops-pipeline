@@ -5,7 +5,7 @@ pipeline {
 
       stage('Git Progress') {
         steps {
-          git  branch: 'main', url: 'https://github.com/Shin9184/devsecops-pipeline.git'
+          git  branch: 'main', credentialsId: 'github_cred', url: 'https://github.com/Shin9184/devsecops-pipeline.git'
         }
       }
 
@@ -13,11 +13,11 @@ pipeline {
         steps {
           script {
             checkout scm
-            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_cred') {
-              def customImage = docker.build("shin9184/flask")
-              customImage.push("${env.BUILD_ID}")
-              customImage.push("latest")
-            }
+              docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_cred') {
+                def customImage = docker.build("shin9184/flask")
+                customImage.push("${env.BUILD_ID}")
+                customImage.push("latest")
+              }
           }
         }
       }
