@@ -42,7 +42,8 @@ pipeline {
       steps {
         script {
           sshagent (credentials: ['instance_cred']) {
-            sh "ssh -o StrictHostKeyChecking=no ec2-user@192.168.4.179 docker run -d --name flask-app shin9184/flask:${env.BUILD_ID}"
+            sh "ssh -o StrictHostKeyChecking=no ec2-user@192.168.4.179 docker rm -f flask"
+            sh "ssh -o StrictHostKeyChecking=no ec2-user@192.168.4.179 docker run -d --net flask-nginx --name flask shin9184/flask:${env.BUILD_ID}"
           }
         }
       }
