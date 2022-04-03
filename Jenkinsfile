@@ -28,15 +28,15 @@ pipeline {
         }
       }
 
-      stage ('Anchore Scan') {
-        steps {
-          script {
-            def imageLine = 'shin9184/flask'
-            writeFile file: 'shin9184/flask', text: imageLine
-            anchore name: 'shin9184/flask', engineCredentialsId: 'anchore_cred', bailOnFail: false
-          }
-        }
-      }
+//       stage ('Anchore Scan') {
+//         steps {
+//           script {
+//             def imageLine = 'shin9184/flask'
+//             writeFile file: 'shin9184/flask', text: imageLine
+//             anchore name: 'shin9184/flask', engineCredentialsId: 'anchore_cred', bailOnFail: false
+//           }
+//         }
+//       }
         
     stage('SSH Deploy') {
       steps {
