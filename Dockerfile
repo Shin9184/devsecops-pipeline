@@ -1,3 +1,3 @@
 FROM shin9184/flask-nginx_flask
 WORKDIR /app
-ADD . /app
+ADD ./flask /app
